@@ -3,6 +3,7 @@ import React from 'react';
 import { signIn } from 'next-auth/react'
 
 const Login = ({ providers }) => {
+    console.log(providers);
     return (
         <div className='flex flex-col items-center space-y-20 pt-48'>
             <Image
@@ -13,7 +14,7 @@ const Login = ({ providers }) => {
                 alt="Logo"
             />
             <div>
-                {Object.values(providers).map((provider, index) => (
+                {Object.values(providers).map((provider) => (
                     <div key={provider.name}>
                         <button
                             className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group"

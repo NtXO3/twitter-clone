@@ -5,26 +5,30 @@ import Feed from '../components/Feed';
 import Sidebar from '../components/Sidebar';
 import Login from '../components/Login';
 import Modal from '../components/Modal';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../atoms/modalAtom';
+import Widgets from '../components/Widgets';
 
 const Home = ({ trendingResults, followResults, providers }) => {
     const { data: session } = useSession();
+    const [isOpen, setIsOpen] = useRecoilState(modalState)
 
     if (!session) return <Login providers={providers} />
 
     return (
         <div className="bg-black">
-        <Head>
-            <title>Twitter</title>
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
+            <Head>
+                <title>Twitter Clone</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-        <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
-            <Sidebar />
-            <Feed />
-            {/* Widgets */}
+            <main className='bg-black min-h-screen flex max-w-[1500px] mx-auto'>
+                <Sidebar />
+                <Feed />
+                <Widgets trendingResults={trendingResults} followResults={followResults} />
 
-            <Modal />
-        </main>
+                {isOpen && <Modal />}
+            </main>
         </div>
     )
 }
@@ -32,10 +36,10 @@ const Home = ({ trendingResults, followResults, providers }) => {
 export default Home;
 
 export async function getServerSideProps(context) {
-    const trendingResults = await fetch("http://jsonkeeper.com/b/NKEV").then(
+    const trendingResults = await fetch("https://jsonkeeper.com/b/NKEV").then(
       (res) => res.json()
     );
-    const followResults = await fetch("http://jsonkeeper.com/b/WWMJ").then(
+    const followResults = await fetch("https://jsonkeeper.com/b/WWMJ").then(
       (res) => res.json()
     );
     const providers = await getProviders();

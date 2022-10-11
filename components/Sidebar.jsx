@@ -15,21 +15,23 @@ import {
 
 import SidebarLink from './SidebarLink';
 import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const Sidebar = () => {
     const { data: session } = useSession();
-    console.log(session.user)
+    const router = useRouter();
 
     return (
         <div className='hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed
         h-full xl:ml-24'>
-            <div className='flex items-center justify-center w-14 h-14 hoverAnimation p-0'>
+            <div onClick={() => router.push('/')} className='flex items-center justify-center w-14 h-14 hoverAnimation p-0'>
                 <Image src="https://rb.gy/ogau5a" alt="Twitter Logo" width={30} height={30} />
             </div>
 
             {/* Links */}
             <div className='space-y-2 mt-4 mb-2.5'>
-                <SidebarLink text="Home" icon={HomeIcon} active />
+                <SidebarLink to="/" text="Home" icon={HomeIcon} active={router.asPath === "/"} />
                 <SidebarLink text="Explore" icon={HashtagIcon} />
                 <SidebarLink text="Notifications" icon={BellIcon} />
                 <SidebarLink text="Message" icon={InboxIcon} />

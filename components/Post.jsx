@@ -1,13 +1,14 @@
-import { ChartBarIcon, ChatIcon, DotsHorizontalIcon, HeartIcon, ShareIcon, SwitchHorizontalIcon, TrashIcon } from '@heroicons/react/outline';
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { modalState, postIdState } from '../atoms/modalAtom';
+import { ChartBarIcon, ChatIcon, DotsHorizontalIcon, HeartIcon, ShareIcon, SwitchHorizontalIcon, TrashIcon } from '@heroicons/react/outline';
 import { HeartIcon as HeartIconFilled } from '@heroicons/react/solid'
 import { useSession } from 'next-auth/react';
 import Moment from 'react-moment';
 import { useRecoilState } from 'recoil';
-import { modalState, postIdState } from '../atoms/modalAtom';
-import { useRouter } from 'next/router';
-import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, setDoc } from 'firebase/firestore';
 import { db } from '../firebase-config';
+import Image from 'next/image';
 
 const Post = ({ post, id, postPage }) => {
     const { data: session } = useSession();
@@ -42,16 +43,29 @@ const Post = ({ post, id, postPage }) => {
         )
     ), [id]);
 
+    useEffect(() => (
+        onSnapshot(
+            query(collection(db, "posts", id, "comments"), orderBy("timestamp", "desc")),
+            (snapshot) => {
+                setComments(snapshot.docs);
+            }
+        )
+    ), [id]);
+
     return (
-        <div className='p-3 flex cursor-pointer border-b border-gray-700' onClick={() => router.push(`/${id}`)}>
+        <div className='p-3 flex items-start cursor-pointer border-b border-gray-700' onClick={() => router.push(`/${id}`)}>
             {!postPage && (
-                <img src={post?.userImg} alt="Profile" className='h-11 w-11 rounded-full mr-4' />
+                <div className='mr-4 h-11 w-11'>
+                    <Image src={post?.userImg} alt="Profile" className='rounded-full' width={44} height={44} />
+                </div>
             )}
 
             <div className='flex flex-col space-y-2 w-full'>
                 <div className={`flex ${!postPage && 'justify-between'}`}>
                     {postPage && (
-                        <img src={post?.userImg} alt="Profile" className='h-11 w-11 rounded-full mr-4' />
+                        <div className='mr-4 h-11 w-11'>
+                            <Image src={post?.userImg} alt="Profile" className='rounded-full' width={44} height={44} />
+                        </div>
                     )}
                     <div className='text-[#6e767d]'>
                         <div className='inline-block group'>
