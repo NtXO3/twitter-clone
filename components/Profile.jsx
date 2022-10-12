@@ -66,6 +66,11 @@ const Profile = ({ user }) => {
                     {user.name}
                 </h4>
                 <span className='text-sm sm:text-[15px] block mb-2'>@{user?.tag}</span>
+                {user?.description && (
+                    <p className='text-sm sm:text=[15px] block mb-2 text-[#d9d9d9]'>
+                        {user.description}
+                    </p>
+                )}
                 <p className='text-sm sm:text-[15px] flex items-center'>
                     <CalendarIcon className='h-4 mr-1' /> Joined in&nbsp;<Moment format="MMMM YYYY">{user?.createdAt?.seconds * 1000}</Moment>
                 </p>
