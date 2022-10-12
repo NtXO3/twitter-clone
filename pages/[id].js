@@ -22,20 +22,20 @@ const PostPage = ({ providers, trendingResults, followResults }) => {
     const { data: session } = useSession();
     const [comments, setComments] = useState([]);
 
-    useEffect(() => (
+    useEffect(() => {
         onSnapshot(doc(db, "posts", id), (snapshot) => {
             setPost(snapshot.data())
         })
-    ))
+    }, [id])
 
-    useEffect(() => (
+    useEffect(() => {
         onSnapshot(
             query(collection(db, "posts", id, "comments"), orderBy("timestamp", "desc")),
             (snapshot) => {
                 setComments(snapshot.docs);
             }
         )
-    ), [id]);
+    }, [id]);
 
     if (!session) return <Login providers={providers} />
 

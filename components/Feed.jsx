@@ -7,16 +7,15 @@ import Post from './Post';
 
 const Feed = () => {
     const [posts, setPosts] = useState([]);
-    console.log(posts)
 
-    useEffect(() => (
+    useEffect(() => {
         onSnapshot(
             query(collection(db, "posts"), orderBy("timestamp", "desc")),
             (snapshot) => {
                 setPosts(snapshot.docs);
             }
         )
-    ), []);
+    }, []);
 
     return (
         <div className='text-white flex-grow border-l border-r border-gray-700 max-w-2xl

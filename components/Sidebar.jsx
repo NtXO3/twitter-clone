@@ -37,7 +37,7 @@ const Sidebar = () => {
                 <SidebarLink text="Message" icon={InboxIcon} />
                 <SidebarLink text="Bookmarks" icon={BookmarkIcon} />
                 <SidebarLink text="Lists" icon={ClipboardListIcon} />
-                <SidebarLink text="Profile" icon={UserIcon} />
+                <SidebarLink text="Profile" icon={UserIcon} to={`/users/${session.user.uid}`} active={router.asPath === `/users/${session.user.uid}`} />
                 <SidebarLink text="More" icon={DotsCircleHorizontalIcon} />
             </div>
             <button className='hidden xl:inline text-white mr-auto bg-[#1d9bf0] rounded-full

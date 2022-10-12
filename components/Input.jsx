@@ -60,7 +60,6 @@ const Input = () => {
     }
 
     const addEmoji = (e) => {
-        console.log(e)
         const sym = e.unified.split('-');
         let codesArray = [];
         sym.forEach(el => codesArray.push("0x" + el))

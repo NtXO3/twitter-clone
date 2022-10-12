@@ -26,7 +26,7 @@ const Home = ({ trendingResults, followResults, providers }) => {
                 <Sidebar />
                 <Feed />
                 <Widgets trendingResults={trendingResults} followResults={followResults} />
-
+                
                 {isOpen && <Modal />}
             </main>
         </div>

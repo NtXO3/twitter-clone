@@ -34,11 +34,11 @@ const Modal = () => {
         router.push(`/${postId}`)
     }
 
-    useEffect(() => (
+    useEffect(() => {
         onSnapshot(doc(db, "posts", postId), (snapshot) => {
             setPost(snapshot.data())
         })
-    ))
+    }, [postId])
     
     return (
         <Transition.Root show={isOpen} as={Fragment}>
